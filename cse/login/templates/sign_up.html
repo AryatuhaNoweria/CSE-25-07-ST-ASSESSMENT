@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +11,7 @@
 
   <style>
     body {
-      background-color: #d3d3d3; /* grey background */
+      background-color: #f5f6f8;
       height: 100vh;
       display: flex;
       justify-content: center;
@@ -22,61 +21,66 @@
 
     .signup-card {
       background: #fff;
-      padding: 20px ;
-      width: 50%;
-      height : 100%;
+      padding: 30px;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
 
-    .signup-card h2 {
+    h2 {
       text-align: center;
       margin-bottom: 25px;
-      color: #4e73df;
-      font-weight: 600;
+      font-weight: 500;
     }
 
-    .form-floating input {
-      border-radius: 10px;
-      background-color: white;
-      border: 2px solid #ced4da;
-      transition: border-color 0.3s;
+    input.form-control {
+      border: 1px solid #00c3d8;
+      border-radius: 5px;
+      font-style: italic;
     }
 
-    .form-floating input:focus {
-      border-color: #12dd2dff;
+    input.form-control::placeholder {
+      color: #888;
+      font-style: italic;
+    }
+
+    input.form-control:focus {
+      border-color: #12dd2d;
       box-shadow: none;
+      font-style: normal;
     }
 
-  
-    .form-floating input.is-valid {
-      border-color: #28a745 ;
+    input.is-valid {
+      border-color: #28a745;
     }
 
-  
-    .form-floating input.is-invalid {
-      border-color: #dc3545 ;
+    input.is-invalid {
+      border-color: #dc3545;
     }
 
-    .btn-custom {
-      background-color: #0fe40fff;
+    .btn-signup {
+      background-color: #0fe40f;
       color: white;
       font-weight: bold;
       width: 100%;
-      border-radius: 10px;
-      transition: background-color 0.3s ease;
+      border-radius: 6px;
       padding: 10px;
       font-size: 1rem;
+      border: none;
+      transition: background-color 0.3s ease;
     }
 
-    .btn-custom:hover {
-      background-color: #800080; 
+    .btn-signup:hover {
+      background-color: #800080;
     }
 
-    .alert-success {
+    .alert-success, .alert-danger {
       text-align: center;
       font-weight: 500;
-      margin-bottom: 15px;
+      font-size: 0.95rem;
+      padding: 8px;
     }
-
   </style>
 </head>
 <body>
@@ -84,52 +88,48 @@
   <div class="signup-card">
     <h2>Sign Up</h2>
 
-    <!-- Success message -->
     {% if messages %}
       {% for message in messages %}
-        <div class="alert alert-success">{{ message }}</div>
+        <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+          {{ message }}
+        </div>
       {% endfor %}
     {% endif %}
 
     <form method="POST" novalidate>
       {% csrf_token %}
 
-      <div class="form-floating mb-3">
-        <input type="full_name" name="full_name" id="id_full_name"
+      <div class="mb-3">
+        <input type="text" name="full_name" id="id_full_name"
                class="form-control {% if form.full_name.errors %}is-invalid{% elif form.is_bound and not form.full_name.errors %}is-valid{% endif %}"
-               placeholder="Full Name">
-        <label for="id_full_name">Full Name</label>
+               placeholder="Full Name" required>
       </div>
 
-      <div class="form-floating mb-3">
+      <div class="mb-3">
         <input type="email" name="email" id="id_email"
                class="form-control {% if form.email.errors %}is-invalid{% elif form.is_bound and not form.email.errors %}is-valid{% endif %}"
-               placeholder="Email">
-        <label for="id_email">Email</label>
+               placeholder="Email" required>
       </div>
 
-      <div class="form-floating mb-3">
-        <input type="phone_number" name="phone_number" id="id_phone_number"
+      <div class="mb-3">
+        <input type="text" name="phone_number" id="id_phone_number"
                class="form-control {% if form.phone_number.errors %}is-invalid{% elif form.is_bound and not form.phone_number.errors %}is-valid{% endif %}"
-               placeholder="Phone Number">
-        <label for="id_phone_number">Phone Number</label>
+               placeholder="Phone Number" required>
       </div>
 
-      <div class="form-floating mb-3">
+      <div class="mb-3">
         <input type="password" name="password1" id="id_password1"
                class="form-control {% if form.password1.errors %}is-invalid{% elif form.is_bound and not form.password1.errors %}is-valid{% endif %}"
-               placeholder="Password">
-        <label for="id_password1">Password</label>
+               placeholder="Password" required>
       </div>
 
-      <div class="form-floating mb-3">
+      <div class="mb-3">
         <input type="password" name="password2" id="id_password2"
                class="form-control {% if form.password2.errors %}is-invalid{% elif form.is_bound and not form.password2.errors %}is-valid{% endif %}"
-               placeholder="Confirm Password">
-        <label for="id_password2">Confirm Password</label>
+               placeholder="Confirm Password" required>
       </div>
 
-      <button type="submit" class="btn btn-custom mt-2">SIGN UP</button>
+      <button type="submit" class="btn btn-signup mt-2">SIGN UP</button>
     </form>
 
     <div class="text-center mt-3">
