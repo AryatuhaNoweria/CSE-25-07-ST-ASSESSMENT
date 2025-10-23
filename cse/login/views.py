@@ -23,9 +23,9 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             messages.success(request, "Login successful! Welcome back.")
-            return redirect('login')  # Change this to your dashboard route
-        else:
-            messages.error(request, "Invalid email or password.")
+            return redirect('login') 
+        #else:
+            #messages.error(request, "Invalid email or password.")
     else:
         form = LoginForm()
 
