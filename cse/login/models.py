@@ -10,4 +10,4 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'  # now you login with email
 
     def __str__(self):
-        return self.full_name
+        return self.email
