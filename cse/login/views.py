@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render,redirect
-from django.contrib.auth import  login, authenticate
-from .forms import SignUpForm
+from django.contrib.auth import  login
+from .forms import SignUpForm,LoginForm
 # Create your views here.
 
 def sign_up_view(request):
@@ -18,13 +18,15 @@ def sign_up_view(request):
 
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-
-        user = authenticate(request, username=email, password=password)
-        if user is not None:
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
             login(request, user)
             messages.success(request, "Login successful! Welcome back.")
-            return redirect('dashboard')  # or your homepage
+            return redirect('login')  # Change this to your dashboard route
+        else:
+            messages.error(request, "Invalid email or password.")
+    else:
+        form = LoginForm()
 
-    return render(request, 'login.html')
+    return render(request, 'login.html', {'form': form})
